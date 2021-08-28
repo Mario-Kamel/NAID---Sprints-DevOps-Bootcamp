@@ -1,3 +1,5 @@
+LAB 1 - Scroll Down for Answers
+
 1. Create a user account with the following attribute
 	username: islam
 	Fullname/comment: Islam Askar
