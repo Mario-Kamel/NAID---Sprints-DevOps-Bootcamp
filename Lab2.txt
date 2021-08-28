@@ -1,0 +1,57 @@
+1. What is the option used to view the content of a compressed file.
+2. Backup /etc directory using tar utility.
+3. List the inode numbers of /, /etc, /etc/hosts.
+4. Copy /etc/passwd to your home directory, use the commands diff and cmp, and Edit in the file you copied, and then use these commands again, and check the output.
+5. Create a symbolic link of /etc/passwd in /boot.
+6. Create a hard link of /etc/passwd in /boot. Could you? Why?
+
+Answers:
+
+1.	$touch file1 file2 file3
+	$tar -cvzf files.tar.gz file*
+	# file1
+	# file2
+	# file3
+	$ls
+	# file1  file2  file3  files.tar.gz
+	$tar -tf files.tar.gz
+	# file1
+	# file2
+	# file3
+
+2.	$sudo tar -cf etcbackup.tar /etc
+
+3.	ls -id / /etc /etc/hosts
+	#2 /  262145 /etc  262309 /etc/hosts
+
+4.	$cp /etc/passwd ~/etcpasswdcopy
+	$cmp /etc/passwd ~/etcpasswdcopy > cmpresults
+	$diff /etc/passwd ~/etcpasswdcopy > diffresults
+	$ls -l
+	
+	#total 4
+	#-rw-rw-r-- 1 mariokamel mariokamel   0 أغس 28 15:06 cmpresults
+	#-rw-rw-r-- 1 mariokamel mariokamel   0 أغس 28 15:06 diffresults
+	#-rw-rw-r-- 1 mariokamel mariokamel   0 أغس 28 15:03 file1
+	#-rw-rw-r-- 1 mariokamel mariokamel   0 أغس 28 15:03 file2
+	#-rw-rw-r-- 1 mariokamel mariokamel   0 أغس 28 15:03 file3
+	#-rw-rw-r-- 1 mariokamel mariokamel 142 أغس 28 15:03 files.tar.gz
+	
+	#NO DIFFERENCE BETWEEN cmpresults and diffresults.
+
+5.	$sudo ln -s /etc/passwd /boot/etcpasswdlink
+	$ ls -l /boot
+	total 135264
+	-rw-r--r-- 1 root root   253599 أغس 11 16:53 config-5.11.0-27-generic
+	-rw-r--r-- 1 root root   248291 فبر  5  2021 config-5.8.0-43-generic
+	drwx------ 2 root root     4096 ينا  1  1970 efi
+	lrwxrwxrwx 1 root root       11 أغس 28 15:09 etcpasswdlink -> /etc/passwd
+	drwxr-xr-x 4 root root     4096 أغس 25 00:40 grub
+	lrwxrwxrwx 1 root root       28 أغس 25 00:09 initrd.img -> initrd.img-5.11.0-27-generic
+	-rw-r--r-- 1 root root 53030225 أغس 25 00:42 initrd.img-5.11.0-27-generic
+	-rw-r--r-- 1 root root 53201212 أغس 25 00:38 initrd.img-5.8.0-43-generic
+	lrwxrwxrwx 1 root root       27 أغس 24 23:50 initrd.img.old -> initrd.img-5.8.0-43-generic
+	-rw-r--r-- 1 root root   182704 أغس 18  2020 memtest86+.bin
+	
+6.	$ sudo ln -v /etc/passwd /boot/etcpasswdhardlink
+	#'/boot/etcpasswdhardlink' => '/etc/passwd'

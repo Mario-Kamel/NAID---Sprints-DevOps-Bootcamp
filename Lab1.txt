@@ -1,0 +1,371 @@
+1. Create a user account with the following attribute
+	username: islam
+	Fullname/comment: Islam Askar
+	Password: islam
+2. Create a user account with the following attribute
+	Username: baduser
+	Full name/comment: Bad User
+	Password: baduser
+3. Create a supplementary (Secondary) group called pgroup with group ID of 30000
+4. Create a supplementary group called badgroup
+5. Add islam user to the pgroup group as a supplementary group
+6. Modify the password of islam's account to password
+7. Modify islam's account so the password expires after 30 days
+8. Lock bad user account so he can't log in
+9. Delete bad user account
+10. Delete the supplementary group called badgroup.
+13. Create a folder called myteam in your home directory and change its permissions to read only for the owner.
+14. Log out and log in by another user
+15. Try to access (by cd command) the folder (myteam)
+16. Using the command Line
+	Change the permissions of oldpasswd file to give owner read and write permissions and for group write and execute and execute only for the others (using chmod in 2 different ways)
+	Change your default permissions to be as above.
+	What is the maximum permission a file can have, by default when it is just created? And what is that for directory.
+	Change your default permissions to be no permission to everyone then create a directory and a file to verify.
+17. What are the minimum permission needed for:
+	Copy a directory (permission for source directory and permissions for target parent directory)
+	Copy a file (permission for source file and and permission for target parent directory)
+	Delete a file
+	Change to a directory
+	List a directory content (ls command)
+	View a file content (more/cat command)
+	Modify a file content
+18. Create a file with permission 444. Try to edit in it and to remove it? Note what happened.
+19. What is the difference between the “x” permission for a file and for a directory?
+20. Issue the command "sleep 100" in background.
+21. Kill the sleep command.
+22. Display your processes only
+23. Display all processes except yours
+24. Use the pgrep command to list your processes only
+
+Answers:
+1. 	useradd -c "Islam Askar" islam
+   	sudo useradd -c "Islam Askar" islam
+  	sudo passwd islam
+
+2.	sudo useradd -c "Bad User" baduser
+  	sudo passwd baduser
+
+3. 	sudo groupadd -g 30000 pgroup
+  
+4. 	sudo groupadd badgroup
+
+5. 	sudo usermod -aG pgroup islam
+
+6.	sudo passwd islam 
+
+7. 	sudo chage -M 30 islam
+
+8.	sudo usermod -L baduser
+
+9.	sudo userdel baduser
+
+10.	sudo groupdel badgroup
+
+13. 	mkdir -m 477 myteam
+
+14.	su islam
+
+15.	cd myteam    	#it opens as the group has a permission of 7 (rwx)
+
+16.	sudo chmod 631 /etc/passwd-
+	
+	umask 146   	#file default max is 666 because execution cannot be defaulted to be permitted
+
+	#666 for files
+	#777 for directories
+	
+	umask 777	
+	mkdir test	#d---------
+	touch file	#-rw-rw-r-- 
+	ls -l
+
+17.	5 (r-x) for source directory
+	3 (-wx) for target directory
+
+	4 (r--) for file
+	3 (-wx) for target directory
+
+	2 (-w-) to delete a file
+	
+	1 (--x) to change to a directory
+
+	4 (r--) to run ls command
+	
+	4 (r--) to view a file content
+
+	6 (rw-) to modify data in file
+
+18.	$ touch file
+	$ chmod 444 file
+	$ vi file 	#the file is in read-only mode
+
+19. 	#for file it means executing the code.
+	#You can use cd (change directory) for directories with execution permission
+	
+20.	$ sleep 100 &
+	#[1] 9401
+	$ jobs
+	#[1]+  Running                sleep 100 &
+
+21.	$ sleep 100 &
+	#[1] 9401
+	$ jobs
+#[1]+  Running                 sleep 100 &
+
+22.	$ ps u
+	#USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+	#marioka+    1820  0.0  0.1 172656  6504 tty2     Ssl+ 12:52   0:00 /usr/lib/gdm
+	#marioka+    1837  0.0  0.3 196860 13728 tty2     Sl+  12:52   0:00 /usr/libexec
+	#marioka+    9395  0.0  0.1  19784  5464 pts/0    Ss   14:52   0:00 bash
+	#marioka+    9422  0.0  0.0  20136  3476 pts/0    R+   14:53   0:00 ps u
+
+23.	$ ps u -NU mariokamel
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.1  0.3 168948 13148 ?        Ss   12:48   0:12 /sbin/init r
+root           2  0.0  0.0      0     0 ?        S    12:48   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I<   12:48   0:00 [rcu_gp]
+root           4  0.0  0.0      0     0 ?        I<   12:48   0:00 [rcu_par_gp]
+root           6  0.0  0.0      0     0 ?        I<   12:48   0:00 [kworker/0:0
+root           8  0.0  0.0      0     0 ?        I<   12:48   0:00 [mm_percpu_w
+root           9  0.0  0.0      0     0 ?        S    12:48   0:00 [rcu_tasks_r
+root          10  0.0  0.0      0     0 ?        S    12:48   0:00 [rcu_tasks_t
+root          11  0.0  0.0      0     0 ?        S    12:48   0:01 [ksoftirqd/0
+root          12  0.0  0.0      0     0 ?        I    12:48   0:01 [rcu_sched]
+root          13  0.0  0.0      0     0 ?        S    12:48   0:00 [migration/0
+root          14  0.0  0.0      0     0 ?        S    12:48   0:00 [idle_inject
+root          16  0.0  0.0      0     0 ?        S    12:48   0:00 [cpuhp/0]
+root          17  0.0  0.0      0     0 ?        S    12:48   0:00 [cpuhp/1]
+root          18  0.0  0.0      0     0 ?        S    12:48   0:00 [idle_inject
+root          19  0.0  0.0      0     0 ?        S    12:48   0:02 [migration/1
+root          20  0.1  0.0      0     0 ?        S    12:48   0:08 [ksoftirqd/1
+root          22  0.0  0.0      0     0 ?        I<   12:48   0:00 [kworker/1:0
+root          23  0.0  0.0      0     0 ?        S    12:48   0:00 [kdevtmpfs]
+root          24  0.0  0.0      0     0 ?        I<   12:48   0:00 [netns]
+root          25  0.0  0.0      0     0 ?        I<   12:48   0:00 [inet_frag_w
+root          26  0.0  0.0      0     0 ?        S    12:48   0:00 [kauditd]
+root          27  0.0  0.0      0     0 ?        S    12:48   0:00 [khungtaskd]
+root          28  0.0  0.0      0     0 ?        S    12:48   0:00 [oom_reaper]
+root          29  0.0  0.0      0     0 ?        I<   12:48   0:00 [writeback]
+root          30  0.0  0.0      0     0 ?        S    12:48   0:00 [kcompactd0]
+root          31  0.0  0.0      0     0 ?        SN   12:48   0:00 [ksmd]
+root          32  0.0  0.0      0     0 ?        SN   12:48   0:00 [khugepaged]
+root          79  0.0  0.0      0     0 ?        I<   12:48   0:00 [kintegrityd
+root          80  0.0  0.0      0     0 ?        I<   12:48   0:00 [kblockd]
+root          81  0.0  0.0      0     0 ?        I<   12:48   0:00 [blkcg_punt_
+root          82  0.0  0.0      0     0 ?        I<   12:48   0:00 [tpm_dev_wq]
+root          83  0.0  0.0      0     0 ?        I<   12:48   0:00 [ata_sff]
+root          84  0.0  0.0      0     0 ?        I<   12:48   0:00 [md]
+root          85  0.0  0.0      0     0 ?        I<   12:48   0:00 [edac-poller
+root          86  0.0  0.0      0     0 ?        I<   12:48   0:00 [devfreq_wq]
+root          87  0.0  0.0      0     0 ?        S    12:48   0:00 [watchdogd]
+root          89  0.0  0.0      0     0 ?        I<   12:48   0:03 [kworker/0:1
+root          91  0.0  0.0      0     0 ?        S    12:48   0:00 [kswapd0]
+root          92  0.0  0.0      0     0 ?        S    12:48   0:00 [ecryptfs-kt
+root          94  0.0  0.0      0     0 ?        I<   12:48   0:00 [kthrotld]
+root          95  0.0  0.0      0     0 ?        I<   12:48   0:00 [acpi_therma
+root          96  0.0  0.0      0     0 ?        S    12:48   0:00 [scsi_eh_0]
+root          97  0.0  0.0      0     0 ?        I<   12:48   0:00 [scsi_tmf_0]
+root          98  0.0  0.0      0     0 ?        S    12:48   0:00 [scsi_eh_1]
+root          99  0.0  0.0      0     0 ?        I<   12:48   0:00 [scsi_tmf_1]
+root         101  0.0  0.0      0     0 ?        I<   12:48   0:00 [vfio-irqfd-
+root         102  0.0  0.0      0     0 ?        I<   12:48   0:00 [ipv6_addrco
+root         112  0.0  0.0      0     0 ?        I<   12:48   0:00 [kstrp]
+root         115  0.0  0.0      0     0 ?        I<   12:48   0:00 [zswap-shrin
+root         116  0.0  0.0      0     0 ?        I<   12:48   0:00 [kworker/u5:
+root         121  0.0  0.0      0     0 ?        I<   12:48   0:00 [charger_man
+root         143  0.0  0.0      0     0 ?        I<   12:48   0:02 [kworker/1:1
+root         177  0.0  0.0      0     0 ?        S    12:48   0:00 [scsi_eh_2]
+root         178  0.0  0.0      0     0 ?        I<   12:48   0:00 [scsi_tmf_2]
+root         198  0.0  0.0      0     0 ?        S    12:48   0:00 [jbd2/sda5-8
+root         199  0.0  0.0      0     0 ?        I<   12:48   0:00 [ext4-rsv-co
+root         243  0.0  0.8  78452 32656 ?        S<s  12:48   0:01 /lib/systemd
+root         269  0.0  0.1  23652  7136 ?        Ss   12:48   0:00 /lib/systemd
+message+     411  0.0  0.1   9976  6688 ?        Ss   12:48   0:04 /usr/bin/dbu
+root         795  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop0]
+root         802  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop1]
+root         807  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop2]
+root         811  0.0  0.4 344648 20044 ?        Ssl  12:51   0:03 /usr/sbin/Ne
+root         812  0.0  0.1 246880  7532 ?        Ssl  12:51   0:00 /usr/lib/acc
+root         814  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop3]
+root         820  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop4]
+root         824  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop5]
+root         828  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop6]
+avahi        829  0.0  0.0   8532  3664 ?        Ss   12:51   0:00 avahi-daemon
+root         833  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop7]
+root         842  0.0  0.0  18056  3048 ?        Ss   12:51   0:00 /usr/sbin/cr
+root         843  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop8]
+root         846  0.0  0.2  37212  8752 ?        Ss   12:51   0:00 /usr/sbin/cu
+root         847  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop9]
+root         856  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop10]
+root         857  0.0  0.0  81836  3808 ?        Ssl  12:51   0:00 /usr/sbin/ir
+root         860  0.0  0.4  47968 20092 ?        Ss   12:51   0:00 /usr/bin/pyt
+root         865  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop11]
+root         868  0.0  0.2 249596 10632 ?        Ssl  12:51   0:03 /usr/lib/pol
+root         870  0.0  0.0      0     0 ?        S<   12:51   0:00 [loop12]
+syslog       873  0.0  0.1 224356  4864 ?        Ssl  12:51   0:00 /usr/sbin/rs
+lp           881  0.0  0.1  15336  6584 ?        S    12:51   0:00 /usr/lib/cup
+root         884  0.0  0.2  16736  8132 ?        Ss   12:51   0:00 /lib/systemd
+systemd+     894  0.0  0.3  24032 13316 ?        Ss   12:51   0:00 /lib/systemd
+root         895  0.0  0.3 392948 12732 ?        Ssl  12:51   0:00 /usr/lib/udi
+root         902  0.0  0.1  13688  4904 ?        Ss   12:51   0:00 /sbin/wpa_su
+avahi        924  0.0  0.0   8352   328 ?        S    12:51   0:00 avahi-daemon
+root         936  0.0  0.2 313756 10680 ?        Ssl  12:51   0:00 /usr/sbin/Mo
+root         939  0.0  0.3 178400 13108 ?        Ssl  12:51   0:00 /usr/sbin/cu
+root         946  0.0  0.7 1145348 28300 ?       Ssl  12:51   0:04 /usr/lib/sna
+root         947  0.0  0.1 244244  6172 ?        Ssl  12:51   0:00 /usr/libexec
+root         981  0.0  0.5 126752 23016 ?        Ssl  12:51   0:00 /usr/bin/pyt
+root         994  0.0  0.2 533292 11440 ?        Ssl  12:51   0:02 /snap/canoni
+whoopsie    1031  0.0  0.3 326868 15728 ?        Ssl  12:51   0:00 /usr/bin/who
+kernoops    1039  0.0  0.0  11264   448 ?        Ss   12:51   0:00 /usr/sbin/ke
+kernoops    1042  0.0  0.0  11264   448 ?        Ss   12:51   0:00 /usr/sbin/ke
+root        1272  0.0  0.0 304056  2776 ?        Sl   12:51   0:02 /usr/sbin/VB
+root        1285  0.0  0.2 248244  8576 ?        Ssl  12:51   0:00 /usr/sbin/gd
+gdm         1295  0.0  0.2  18660  9980 ?        Ss   12:51   0:00 /lib/systemd
+gdm         1296  0.0  0.1 104272  4348 ?        S    12:51   0:00 (sd-pam)
+gdm         1303  0.0  0.6 593748 24324 ?        SNsl 12:51   0:00 /usr/libexec
+rtkit       1305  0.0  0.0 152940  2988 ?        SNsl 12:51   0:00 /usr/libexec
+gdm         1307  0.0  0.1   7396  4592 ?        Ss   12:51   0:00 /usr/bin/dbu
+gdm         1320  0.0  0.1 248344  7700 ?        Ssl  12:51   0:00 /usr/libexec
+gdm         1335  0.0  0.1 312808  6300 ?        Sl   12:51   0:00 /usr/libexec
+gdm         1337  0.0  0.2 396296  9212 ?        Ssl  12:51   0:00 /usr/libexec
+gdm         1365  0.0  0.2 325360  8896 ?        Ssl  12:51   0:00 /usr/libexec
+gdm         1374  0.0  0.1 244340  6264 ?        Ssl  12:51   0:00 /usr/libexec
+gdm         1379  0.0  0.1 244512  5944 ?        Ssl  12:51   0:00 /usr/libexec
+gdm         1383  0.0  0.8 553668 36060 ?        Sl   12:51   0:00 /usr/libexec
+gdm         1393  0.0  0.2 397124  8924 ?        Sl   12:51   0:00 /usr/libexec
+gdm         1398  0.0  0.1 246616  6812 ?        Ssl  12:51   0:00 /usr/libexec
+root        1406  0.0  0.2 260752  9816 ?        Ssl  12:51   0:00 /usr/lib/upo
+root        1421  0.0  0.2 175320  9028 ?        Sl   12:51   0:00 gdm-session-
+gdm         1433  0.0  0.1 172656  6496 tty1     Ssl+ 12:51   0:00 /usr/lib/gdm
+root        1435  0.0  1.4 664212 57452 tty1     Sl+  12:51   0:06 /usr/lib/xor
+gdm         1446  0.0  0.0   5300  1180 tty1     S+   12:51   0:00 dbus-run-ses
+gdm         1447  0.0  0.1   7552  4584 tty1     S+   12:51   0:00 dbus-daemon 
+gdm         1448  0.0  0.3 492492 15048 tty1     Sl+  12:51   0:00 /usr/libexec
+gdm         1459  0.0  0.1 305524  6700 tty1     Sl+  12:51   0:00 /usr/libexec
+gdm         1464  0.0  0.1   7248  4144 tty1     S+   12:51   0:00 /usr/bin/dbu
+gdm         1502  0.1  5.0 3823364 202824 tty1   Sl+  12:51   0:11 /usr/bin/gno
+gdm         1521  0.0  0.2 319444  8148 tty1     Sl   12:51   0:00 ibus-daemon 
+gdm         1524  0.0  0.1 245160  7188 tty1     Sl   12:51   0:00 /usr/libexec
+gdm         1527  0.0  0.4 196608 16616 tty1     Sl   12:51   0:00 /usr/libexec
+gdm         1532  0.0  0.1 245140  7240 tty1     Sl+  12:51   0:00 /usr/libexec
+gdm         1540  0.0  0.1 162912  6392 tty1     Sl+  12:51   0:00 /usr/libexec
+gdm         1544  0.0  0.1 244232  4384 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1550  0.0  0.4 890712 18148 ?        S<sl 12:52   0:00 /usr/bin/pul
+gdm         1563  0.0  0.6 2607072 26880 tty1    Sl+  12:52   0:00 /usr/bin/gjs
+gdm         1568  0.0  0.2 473424  9896 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1569  0.0  0.3 343692 15688 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1571  0.0  0.4 567244 18744 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1572  0.0  0.4 417920 17104 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1574  0.0  0.2 256864 11224 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1577  0.0  0.1 465736  6152 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1578  0.0  0.2 323800  9940 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1579  0.0  0.1 171332  7096 tty1     Sl   12:52   0:00 /usr/libexec
+gdm         1581  0.0  0.3 382256 15864 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1590  0.0  0.5 900008 20172 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1591  0.0  0.1 244276  5780 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1594  0.0  0.2 327988  9132 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1595  0.0  0.1 318296  6524 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1596  0.0  0.1 320360  7608 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1600  0.0  0.4 345104 18132 tty1     Sl+  12:52   0:00 /usr/libexec
+gdm         1627  0.0  0.3 350828 15096 tty1     Sl+  12:52   0:00 /usr/libexec
+colord      1635  0.0  0.3 254872 14604 ?        Ssl  12:52   0:00 /usr/libexec
+root        1709  0.0  0.2 323312 10080 ?        Sl   12:52   0:00 gdm-session-
+root        4243  0.0  0.0   2548   720 ?        Ss   13:13   0:00 /usr/sbin/ac
+root        4277  0.2  1.2 975440 49968 ?        Ssl  13:13   0:18 /usr/bin/con
+root        4599  0.0  2.1 873164 87256 ?        Ssl  13:13   0:02 /usr/bin/doc
+root        4617  0.0  0.0   2496   584 ?        S    13:13   0:00 bpfilter_umh
+root        8978  0.0  0.0      0     0 ?        I    14:14   0:00 [kworker/u4:
+root        9029  0.0  0.0      0     0 ?        I    14:16   0:00 [kworker/1:0
+root        9197  0.0  0.0      0     0 ?        I    14:42   0:00 [kworker/1:1
+root        9198  0.0  0.0      0     0 ?        I    14:42   0:00 [kworker/0:1
+root        9240  0.0  0.0      0     0 ?        R    14:47   0:00 [kworker/u4:
+root        9420  0.0  0.0      0     0 ?        I    14:53   0:00 [kworker/0:2
+root        9444  0.0  0.0      0     0 ?        I    14:57   0:00 [kworker/u4:
+
+24. $ pgrep -l -u mariokamel
+1718 systemd
+1719 (sd-pam)
+1724 pulseaudio
+1726 tracker-miner-f
+1729 dbus-daemon
+1731 gnome-keyring-d
+1749 gvfsd
+1754 gvfsd-fuse
+1755 gvfs-udisks2-vo
+1768 gvfs-afc-volume
+1775 gvfs-mtp-volume
+1779 gvfs-goa-volume
+1783 goa-daemon
+1791 goa-identity-se
+1796 gvfs-gphoto2-vo
+1812 gnome-keyring-d
+1820 gdm-x-session
+1837 gnome-session-b
+1908 VBoxClient
+1909 VBoxClient
+1920 VBoxClient
+1921 VBoxClient
+1927 VBoxClient
+1929 VBoxClient
+1933 VBoxClient
+1934 VBoxClient
+1940 ssh-agent
+1965 at-spi-bus-laun
+1970 dbus-daemon
+1993 gnome-session-c
+1999 gnome-session-b
+2015 gnome-shell
+2042 ibus-daemon
+2046 ibus-dconf
+2047 ibus-extension-
+2050 ibus-x11
+2053 ibus-portal
+2063 at-spi2-registr
+2069 xdg-permission-
+2074 gnome-shell-cal
+2082 evolution-sourc
+2088 dconf-service
+2091 gvfsd-metadata
+2100 evolution-calen
+2111 evolution-addre
+2137 gjs
+2149 gvfsd-trash
+2168 gsd-a11y-settin
+2169 gsd-color
+2172 gsd-datetime
+2178 gsd-housekeepin
+2184 gsd-keyboard
+2185 gsd-media-keys
+2188 gsd-power
+2189 gsd-print-notif
+2193 gsd-rfkill
+2196 gsd-screensaver
+2198 evolution-alarm
+2206 gsd-sharing
+2212 gsd-smartcard
+2214 gsd-sound
+2221 gsd-usb-protect
+2227 gsd-disk-utilit
+2228 gsd-wacom
+2231 gsd-wwan
+2238 gsd-xsettings
+2306 gsd-printer
+2315 ibus-engine-sim
+2349 snap-store
+2392 xdg-document-po
+2519 xdg-desktop-por
+2523 xdg-desktop-por
+2865 update-notifier
+8896 nautilus
+8919 sh
+8920 gvfsd-admin
+9388 gnome-terminal-
+9395 bash
+
+
+
+
+		
+
+ 	
