@@ -1,3 +1,5 @@
+LAB 2 - Scroll Down for Answers
+
 1. What is the option used to view the content of a compressed file.
 2. Backup /etc directory using tar utility.
 3. List the inode numbers of /, /etc, /etc/hosts.
